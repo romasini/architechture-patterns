@@ -32,4 +32,9 @@ public class Transportation extends AbstractOperation{
                 ", storageTo=" + storageTo +
                 '}';
     }
+
+    @Override
+    public void changeOperation(String comment) {
+        this.comment = comment + " transport from " + storageFrom.getName() + " to " + storageTo.getName();
+    }
 }

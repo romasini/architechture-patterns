@@ -1,5 +1,7 @@
 package ru.romasini.architechture.patterns;
 
+import ru.romasini.architechture.patterns.decorator.OperationFailed;
+import ru.romasini.architechture.patterns.decorator.OperationSuccess;
 import ru.romasini.architechture.patterns.entities.AbstractOperation;
 import ru.romasini.architechture.patterns.entities.Source;
 import ru.romasini.architechture.patterns.entities.Storage;
@@ -18,6 +20,8 @@ import java.util.List;
 public class PatternsMain {
     public static void main(String[] args) {
 
+
+        //Mocking
         UserService.addUser(UserService.ADMIN);
         UserService.addUser(new User(2l, "Bob", "123", "bob@mail.com"));
         UserService.addUser(new User(3l, "Rob", "123", "rob@mail.com"));
@@ -39,7 +43,7 @@ public class PatternsMain {
         SourceService.addSource(new Source(5l, UserService.getUserById(2l).get(), "Buy", TypeOperationItem.CREDIT));
         SourceService.addSource(new Source(6l, UserService.getUserById(3l).get(), "Deposit", TypeOperationItem.DEBIT));
 
-
+        //Fabric
         Fabric fabric = Fabric.getInstance();
 
         Factory simpleFactory = fabric.createFactory(TypeOperation.SIMPLE);
@@ -60,6 +64,17 @@ public class PatternsMain {
 
         System.out.println(op1);
         System.out.println(tr1);
+
+
+        //Decorator
+        OperationFailed operationFailed = new OperationFailed(tr1);
+        operationFailed.changeOperation("1");
+        System.out.println(tr1.getComment());
+
+        OperationSuccess operationSuccess = new OperationSuccess(operationFailed);
+        operationSuccess.changeOperation("2");
+        System.out.println(tr1.getComment());
+
 
     }
 }

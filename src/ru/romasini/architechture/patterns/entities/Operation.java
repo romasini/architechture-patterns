@@ -1,5 +1,7 @@
 package ru.romasini.architechture.patterns.entities;
 
+import ru.romasini.architechture.patterns.utils.TypeOperationItem;
+
 public class Operation extends AbstractOperation{
     private Storage storage;
 
@@ -21,5 +23,16 @@ public class Operation extends AbstractOperation{
                 ", amount=" + amount +
                 ", storage=" + storage +
                 '}';
+    }
+
+
+    @Override
+    public void changeOperation(String comment) {
+        if(source.getType() == TypeOperationItem.CREDIT){
+            this.comment = comment + " transport from " + storage.getName() ;
+        }else {
+            this.comment = comment + " transport to " + storage.getName() ;
+        }
+
     }
 }
