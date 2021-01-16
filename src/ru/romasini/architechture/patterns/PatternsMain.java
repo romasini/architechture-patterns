@@ -8,6 +8,8 @@ import ru.romasini.architechture.patterns.entities.Storage;
 import ru.romasini.architechture.patterns.entities.User;
 import ru.romasini.architechture.patterns.fabric.Fabric;
 import ru.romasini.architechture.patterns.fabric.Factory;
+import ru.romasini.architechture.patterns.observer.ClientObserver;
+import ru.romasini.architechture.patterns.observer.TaxOfficeObserver;
 import ru.romasini.architechture.patterns.services.SourceService;
 import ru.romasini.architechture.patterns.services.StorageService;
 import ru.romasini.architechture.patterns.services.UserService;
@@ -43,6 +45,10 @@ public class PatternsMain {
         SourceService.addSource(new Source(5l, UserService.getUserById(2l).get(), "Buy", TypeOperationItem.CREDIT));
         SourceService.addSource(new Source(6l, UserService.getUserById(3l).get(), "Deposit", TypeOperationItem.DEBIT));
 
+        //Observer
+        ClientObserver client = new ClientObserver();
+        TaxOfficeObserver taxOfficeObserver = new TaxOfficeObserver();
+
         //Fabric
         Fabric fabric = Fabric.getInstance();
 
@@ -50,16 +56,22 @@ public class PatternsMain {
         Factory transportFactory = fabric.createFactory(TypeOperation.TRANSPORT);
 
         User user = UserService.getUserById(2l).get();
+
         Storage storage = StorageService.getStorageById(3l).get();
         Storage storageTo = StorageService.getStorageById(6l).get();
+
+        storage.attach(client);
+        storage.attach(taxOfficeObserver);
+        storageTo.attach(taxOfficeObserver);
+
         Source source = SourceService.getSourceById(4l).get();
 
         List<Storage> storageList = new ArrayList<>();
         storageList.add(storage);
 
         AbstractOperation op1 = simpleFactory.createProvider().createOperation(user, source, 500d, storageList);
-        storageList.add(storageTo);
 
+        storageList.add(storageTo);
         AbstractOperation tr1 = transportFactory.createProvider().createOperation(user, SourceService.TRANSPORTATION, 200d, storageList);
 
         System.out.println(op1);
@@ -74,6 +86,8 @@ public class PatternsMain {
         OperationSuccess operationSuccess = new OperationSuccess(operationFailed);
         operationSuccess.changeOperation("2");
         System.out.println(tr1.getComment());
+
+
 
 
     }

@@ -29,6 +29,8 @@ public class OperationProvider implements FactoryProvider{
         OperationItemService.addOperationItem(opI);
         OperationService.addOperation(op);
 
+        op.getStorage().balanceChanged(op);
+
         return op;
     }
 }

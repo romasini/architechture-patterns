@@ -1,6 +1,8 @@
 package ru.romasini.architechture.patterns.entities;
 
-public class Storage {
+import ru.romasini.architechture.patterns.observer.Subject;
+
+public class Storage extends Subject {
 
     private Long Id;
     private String name;
@@ -43,5 +45,17 @@ public class Storage {
         Id = id;
         this.name = name;
         this.user = user;
+    }
+
+    public void balanceChanged(AbstractOperation op){
+        notify(op);
+    }
+
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "name='" + name + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

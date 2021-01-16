@@ -42,6 +42,8 @@ public class TransportationProvider implements FactoryProvider{
 
         TransportationService.addOperation(op);
 
+        op.getStorageTo().balanceChanged(op);
+
         return op;
     }
 }

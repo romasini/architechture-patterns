@@ -37,4 +37,10 @@ public class UserService {
         }
     }
 
+    public static void sendMessageToClient(User u, String message){
+        System.out.println("Sender : service");
+        System.out.println("Receiver : " + u.getEmail());
+        System.out.println("Message : " + message );
+    }
+
 }
