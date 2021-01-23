@@ -46,4 +46,11 @@ public class Source {
         this.name = name;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Source{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
